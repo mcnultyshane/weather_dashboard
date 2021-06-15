@@ -19,19 +19,27 @@ var searchBtn = $(".searchbutton");
 var CitySubmitHandler = function (event) {
     event.preventDefault();
 
-    var cityGroup = cityNameInput.nodeValue.trim();
+    var cityGroup = cityNameInput.value.trim().toUppercase();
     console.log(cityGroup);
 
     if (citygroup) {
-    getCityInfo (cityGroup);
-    weathContainer.textContent = '';
-    // add another variable for data city name submission
+    getCityInfo(cityGroup);
+    createBtn(cityGroup);
+    searchHist();
+    
     } else {
-        alert('Please enter a city name');
-
-}
+        alert('Please enter a city name to see the current forcast.');
+    }
 
 };
+
+function createBtn(city) {
+    cityAsk.textContent = city;
+    cityAsk.classList = "butn btn-infor btn-block"
+    cityAsk.setAttribute
+}
+
+
 var buttonClickHandler = function (event) {
     var language = event.target.getAttribute('data-language');
 
