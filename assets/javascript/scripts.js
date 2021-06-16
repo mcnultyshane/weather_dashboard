@@ -6,8 +6,18 @@ var currentBox = document.querySelector(".current-box");
 var dayCard= document.getElementsByClassName('day-card');
 var fivedayRow = document.querySelector('five-day-box');
 
+// variables for appending the document once we have information
+var cityDiv = document.createElement('div');
+var cityInfoDiv = document.createElement('div');
+var nameEl = document.createElement('div');
+var tempEl = document.createElement('div');
+var humidEl = document.createElement('div');
+var windEl = document.createElement('div');
+var uvBubble = document.createElement('div');
+var uvIndex = document.createElement("h4");
+var uvDisplay = document.createElement('div');
 
-var uvIndex;
+
 
 var cityButtons;
 // variables for pulling API search
@@ -31,7 +41,15 @@ var weatherAsk = function (city) {
             return response.json();
         
         })
-        .then (function (response))
+        .then (function (response) {
+            cityDiv.classlist = 'temp-div';
+            weathContainer.appendChild(cityDiv);
+        
+            cityInfoDiv.classList = 'detail-div';
+            weathContainer.appendChild(cityInfoDiv)
+
+
+        }
 }
 
 
