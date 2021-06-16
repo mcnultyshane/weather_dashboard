@@ -1,3 +1,4 @@
+// variables for html sections
 var cityNameInput = document.querySelector(".cityGroup");
 var cityNameForm = document.querySelector(".form-control");
 var weathContainer = document.querySelector(".weather-container");
@@ -7,14 +8,36 @@ var fivedayRow = document.querySelector('five-day-box');
 
 
 var uvIndex;
+
 var cityButtons;
-
-var apiKey = "7aa46cc940f1317aa850cdc655c09d9e";
+// variables for pulling API search
+// var apiKey = "7aa46cc940f1317aa850cdc655c09d9e";
 var searchBtn = $(".searchbutton");
+var date = moment().format('ll');
+
+// function for pulling API data
+var weatherAsk = function (city) {
+    if (!city) {
+        return;
+    };
+
+    var weatherApi = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&APPID=7aa46cc940f1317aa850cdc655c09d9e";
+
+    fetch (weatherApi)
+        .then(function (response) {
+            if (!response || response.ok) {
+                throw new Error('There was an error');
+            };
+            return response.json();
+        
+        })
+        .then (function (response))
+}
 
 
 
 
+// function for city search
 
 var CitySubmitHandler = function (event) {
     event.preventDefault();
@@ -32,11 +55,14 @@ var CitySubmitHandler = function (event) {
     }
 
 };
-
+// creating button for city searches
 function createBtn(city) {
     cityAsk.textContent = city;
     cityAsk.classList = "butn btn-infor btn-block"
-    cityAsk.setAttribute
+    cityAsk.setAttribute = ("data-city", city);
+    cityAsk.setAttribute = ("type", submit);
+    cityAsk.setAttribute = ("id", "city-" + city);
+
 }
 
 
