@@ -17,7 +17,7 @@ var uvBubble = document.createElement('div');
 var uvIndex = document.createElement("h4");
 var uvDisplay = document.createElement('div');
 
-
+var fiveDay  = document.querySelector("#five-day");
 
 var cityButtons;
 // variables for pulling API search
@@ -90,14 +90,55 @@ var weatherAsk = function (city) {
             return fetch("https://api.openweathermap.org/data/2.5/onecall?lat=" + uvResponse.lat + "&lon=" + uvResponse.lon + "&appid=7aa46cc940f1317aa850cdc655c09d9e&units=imperial");
 
         })
+        .then(function (forecastResponse) {
+            return forecastResponse.json();
+        })
+        .then(function (forecastResponse) {
+            // for loop to display 5 day forecast
+            for (var i = 1; i < 6; i++) {
+                var forecastEl = document.createElement("div");
+                forecastEl.classList = "forecast-card card-body rounded-lg border-dark bg-info text-light";
+                fiveDay.appendChild(forecastEl);
 
-}
-}
+                // display date 
+                var dateDiv = document.createElement("div");
+                dateDiv.classList = "secondary-text card-title";
+                var forecastDate = moment.utc(forecastResponse.daily[i].dt * 1000).format("dddd, MMM DD");
+                dateDiv.innerHTML = "<h5 class='font-weight-bold'>" + forecastDate + "</h5>";
+                forecastEl.appendChild(dateDiv);
+
+                // weather icon
+                var iconDiv = document.createElement("div");
+                iconDiv.innerHTML = "<img src='http://openweathermap.org/img/w/" + forecastResponse.daily[i].weather[0].icon + ".png' class='forecast-icon' alt=Current weather icon/>";
+                forecastEl.appendChild(iconDiv);
+
+                // display day temperature forecast
+                var tempDiv = document.createElement("div");
+                tempDiv.classList = "card-text secondary-text";
+                tempDiv.innerHTML = "<h6>Day Temp:<span>" + " " + Math.round(forecastResponse.daily[i].temp.day) + "&#176F</span></h6>" + "<h6>Night Temp:<span>" + " " + Math.round(forecastResponse.daily[i].temp.night) + " &#176F</span></h6>";
+                forecastEl.appendChild(tempDiv);
+
+                // display humidity forecast
+                var humidDiv = document.createElement("div");
+                humidDiv.classList = "card-text secondary-text";
+                humidDiv.innerHTML = "<h6>Humidity:<span>" + " " + forecastResponse.daily[i].humidity + "%</span></h6>";
+                forecastEl.appendChild(humidDiv);
+            }
+        })
+        .catch(function (error) {
+            removePrevious();
+            alert(error.message);
+            document.querySelector("#search-bar").value = "";
+            return;
+        });
+};
 
 
 
 
-// function for city search
+
+
+// // function for city search
 
 var CitySubmitHandler = function (event) {
     event.preventDefault();
@@ -105,30 +146,31 @@ var CitySubmitHandler = function (event) {
     var cityGroup = cityNameInput.value.trim().toUpperCase();
     console.log(cityGroup);
 
-    if (citygroup) {
-        weatherAsk(cityGroup);
-        createBtn(cityGroup);
-        searchHist();
+//     if (citygroup) {
+//         weatherAsk(cityGroup);
+//         createBtn(cityGroup);
+//         searchHist();
 
-    } else {
-        alert('Please enter a city name to see the current forcast.');
-    }
+//     } else {
+//         alert('Please enter a city name to see the current forecast.');
+//     }
 
-};
-// creating button for city searches
-function createBtn(city) {
-    cityAsk.textContent = city;
-    cityAsk.classList = "butn btn-infor btn-block"
-    cityAsk.setAttribute = ("data-city", city);
-    cityAsk.setAttribute = ("type", submit);
-    cityAsk.setAttribute = ("id", "city-" + city);
+// };
+// // creating button for city searches
+// function createBtn(city) {
+//     cityAsk.textContent = city;
+//     cityAsk.classList = "butn btn-infor btn-block"
+//     cityAsk.setAttribute = ("data-city", city);
+//     cityAsk.setAttribute = ("type", submit);
+//     cityAsk.setAttribute = ("id", "city-" + city);
 
+// }
+
+
+// var buttonClickHandler = function (event) {
+//     var language = event.target.getAttribute('data-language');
+
+// }
+
+    // cityNameInput.addEventListener('click', CitySubmitHandler)
 }
-
-
-var buttonClickHandler = function (event) {
-    var language = event.target.getAttribute('data-language');
-
-}
-
-cityNameInput.addEventListener('click', CitySubmitHandler)
