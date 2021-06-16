@@ -18,11 +18,11 @@ var uvIndex = document.createElement("h4");
 var uvDisplay = document.createElement('div');
 
 var fiveDay  = document.querySelector("#five-day");
+var searchHistoryDiv = document.querySelector("#search-history");
+var cityCount = 1;
 
-var cityButtons;
 // variables for pulling API search
 // var apiKey = "7aa46cc940f1317aa850cdc655c09d9e";
-var searchBtn = $(".searchbutton");
 var date = moment().format('ll');
 
 // function for pulling API data
@@ -132,12 +132,6 @@ var weatherAsk = function (city) {
             return;
         });
 };
-
-
-
-
-
-
 // // function for city search
 
 var CitySubmitHandler = function (event) {
@@ -146,25 +140,28 @@ var CitySubmitHandler = function (event) {
     var cityGroup = cityNameInput.value.trim().toUpperCase();
     console.log(cityGroup);
 
-//     if (citygroup) {
-//         weatherAsk(cityGroup);
-//         createBtn(cityGroup);
-//         searchHist();
+    if (citygroup) {
+        weatherAsk(cityGroup);
+        createBtn(cityGroup);
+        searchHist();
 
-//     } else {
-//         alert('Please enter a city name to see the current forecast.');
-//     }
+    } else {
+        alert('Please enter a city name to see the current forecast.');
+    }
 
-// };
-// // creating button for city searches
-// function createBtn(city) {
-//     cityAsk.textContent = city;
-//     cityAsk.classList = "butn btn-infor btn-block"
-//     cityAsk.setAttribute = ("data-city", city);
-//     cityAsk.setAttribute = ("type", submit);
-//     cityAsk.setAttribute = ("id", "city-" + city);
+};
+// creating button for city searches
+function createBtn(city) {
+    cityAsk.textContent = city;
+    cityAsk.classList = "butn btn-infor btn-block"
+    cityAsk.setAttribute = ("data-city", city);
+    cityAsk.setAttribute = ("type", submit);
+    cityAsk.setAttribute = ("id", "city-" + city);
+    searchHistoryDiv.prepend(cityAsk);
 
-// }
+};
+
+
 
 
 // var buttonClickHandler = function (event) {
