@@ -5,6 +5,7 @@ var weathContainer = document.querySelector(".weather-container");
 var currentBox = document.querySelector(".current-box");
 var dayCard = document.getElementsByClassName('day-card');
 var fivedayRow = document.querySelector('five-day-box');
+var deleteBtn = document.getElementById("dlt-btn");
 
 // variables for appending the document once we have information
 var cityDiv = document.createElement('div');
@@ -187,4 +188,35 @@ function storeHistory () {
     removePrevious();
 };
 
+function loadHistory() {
+    if (localStorage.getItem("searchedCities")) {
+        var previousSearchCity = JSON.parse(localStorage.getItem("searchedCities"));
+        for (var i = 0; i < previousSearchCity.length; i++) {
+            createBtn(previousSearchCity[i]);
+        }
+    };
+
+    for (i = 0; i < document.getElementsByClassName("btn").length; i++) {
+        document.getElementsByClassName("btn")[i].addEventListener('click', function () {
+            var btnClicked = this.getAttribute("data-city");
+            weatherAsk(btnClicked);
+            console.log(btnClicked);
+            removePrevious();
+        });
+    }
+};
+
+var removePrevious = function () {
+    nameEl.remove();
+    uvBubble.remove();
+    fiveDay.innerHTML = "";
+    tempEl.remove();
+    humidEl.remove();
+    windEl.remove();
+};
+
+cityNameInput.addEventListener("submit", CitySubmitHandler);
+deleteBtn.addEventListener("click", clearHistory);
+
+loadHistory();
 
