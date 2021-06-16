@@ -128,7 +128,7 @@ var weatherAsk = function (city) {
         .catch(function (error) {
             removePrevious();
             alert(error.message);
-            document.querySelector("#search-bar").value = "";
+            document.querySelector("#search-button").value = "";
             return;
         });
 };
@@ -161,13 +161,30 @@ function createBtn(city) {
 
 };
 
+function clearHistory () {    
+    var searchedCities = JSON.parse(localStorage.getItem("searchedCities"));
+    for (var i = 0; i < searchedCities.length; i++) {
+        document.getElementById("city-" + searchedCities[i]).remove();
+    
+    }
+    localStorage.clear("searchedCities");
+};
+
+function storeHistory () {
+    var userSearch = document.querySelector("#search-button").value.trim().toUpperCase();
+
+    if (!userSearch) {
+        return;
+    }
 
 
+    var previousSearchCity = JSON.parse(localStorage.getItem("searchedCities")) || [];
+    previousSearchCity.push(userSearch);
+    localStorage.setItem("searchedCities", JSON.stringify(previousSearchCity));
 
-// var buttonClickHandler = function (event) {
-//     var language = event.target.getAttribute('data-language');
+    document.querySelector("#search-button").value = "";
 
-// }
+    removePrevious();
+};
 
-    // cityNameInput.addEventListener('click', CitySubmitHandler)
-}
+
