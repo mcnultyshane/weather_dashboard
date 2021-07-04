@@ -52,7 +52,7 @@ var weatherAsk = function (cityGroup) {
             cityInfoDiv.classList = 'detail-div';
             weathContainer.appendChild(cityInfoDiv)
 
-            nameEl.innerHTML = "<h2 class='secondary-text'>Current Weather for <span class='font-weight-bold'>" + response.name + "</span></h2><br><img class='icon' src='http://openweathermap.org/img/w/" + response.weather[0].icon + ".png' alt=Current weather icon/><br><br><h2 class='font-weight-bold secondary-text'>" + date + "</h2><br>";
+            nameEl.innerHTML = "<h2 class='secondary-text'>Current Weather for <span class='font-weight-bold'>" + response.name + "</span></h2><br><img class='icon' src='http://openweathermap.org/img/w/" + response.weather[0].icon + ".png' alt=Current weather icon/><br><h2 class='font-weight-bold secondary-text'>" + date + "</h2><br>";
             cityDiv.appendChild(nameEl);
 
             tempEl.innerHTML = "<h3 class='secondary-text'>Current Temperature:<span class='font-weight-bold'>" + " " + Math.round(response.main.temp) + "&#176F</span></h3><br>";
@@ -85,11 +85,11 @@ var weatherAsk = function (cityGroup) {
             uvBubble.appendChild(uvDisplay);
 
             if (uvResponse.value > 7) {
-                document.querySelector("#uv-index").classList = "uv-result badge text-wrap text-white rounded bg-danger w-25";
+                document.querySelector("#uv-index").classList = "uv-result badge rounded-pill text-wrap text-white  bg-danger w-25";
             } else if (uvResponse.value >= 2 && uvResponse.value <= 7) {
-                document.querySelector("#uv-index").classList = "uv-result badge text-wrap rounded bg-warningw-25 ";
+                document.querySelector("#uv-index").classList = "uv-result badge text-wrap rounded-pill bg-warningw-25 ";
             } else if (uvResponse.value <= 2) {
-                document.querySelector("#uv-index").classList = "uv-result badge text-wrap rounded bg-success w-25";
+                document.querySelector("#uv-index").classList = "uv-result badge text-wrap rounded-pill bg-success w-25";
             }
 
             return fetch("https://api.openweathermap.org/data/2.5/onecall?lat=" + uvResponse.lat + "&lon=" + uvResponse.lon + "&appid=7aa46cc940f1317aa850cdc655c09d9e&units=imperial");
@@ -102,7 +102,7 @@ var weatherAsk = function (cityGroup) {
             // for loop to display 5 day forecast
             for (var i = 1; i < 6; i++) {
                 var forecastEl = document.createElement("div");
-                forecastEl.classList = "forecast-card d-inline-flex flex-column card-body rounded-lg border border-dark bg-info text-light me-2";
+                forecastEl.classList = "forecast-card d-inline-flex flex-column card-body rounded-3 border border-dark bg-info text-light me-2 mb-5";
                 fiveDay.appendChild(forecastEl);
 
                 // display date 
