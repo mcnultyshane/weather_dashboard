@@ -202,8 +202,8 @@ function loadHistory() {
         }
     };
 
-    for (i = 0; i < document.getElementsByClassName("btn").length; i++) {
-        document.getElementsByClassName("btn")[i].addEventListener('click', function () {
+    for (i = 0; i < document.getElementsByClassName("newBtn").length; i++) {
+        document.getElementsByClassName("newBtn")[i].addEventListener('click', function () {
             var btnClicked = this.getAttribute("data-city");
             weatherAsk(btnClicked);
             console.log("This is button on 204 value: " + btnClicked);
