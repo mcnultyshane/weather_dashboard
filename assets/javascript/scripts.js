@@ -1,6 +1,6 @@
 // variables for html sections
-var cityNameInput = document.querySelector("#search-button");
-var cityNameForm = document.querySelector(".form-control");
+var cityNameInput = document.getElementById("city-input");
+var searchBtn = document.getElementById("searchBtn");
 var weathContainer = document.querySelector(".weather-container");
 var currentBox = document.querySelector(".current-box");
 var dayCard = document.getElementsByClassName('day-card');
@@ -18,8 +18,8 @@ var uvBubble = document.createElement('div');
 var uvIndex = document.createElement("h4");
 var uvDisplay = document.createElement('div');
 
-var fiveDay  = document.querySelector("#five-day");
-var searchHistoryDiv = document.querySelector("#search-history");
+var fiveDay = document.querySelector("#five-day");
+var searchHistoryDiv = document.getElementById("search-history");
 var cityCount = 1;
 
 // variables for pulling API search
@@ -27,23 +27,26 @@ var cityCount = 1;
 var date = moment().format('ll');
 
 // function for pulling API data
-var weatherAsk = function (city) {
-    if (!city) {
+var weatherAsk = function (cityGroup) {
+    if (!cityGroup) {
         return;
     };
 
-    var weatherApi = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&APPID=7aa46cc940f1317aa850cdc655c09d9e";
+    var weatherApi = "https://api.openweathermap.org/data/2.5/weather?q=" + cityGroup + "&units=imperial&APPID=7aa46cc940f1317aa850cdc655c09d9e";
+    console.log("this is weatherAPI on line 35: " + weatherApi);
 
     fetch(weatherApi)
         .then(function (response) {
-            if (!response || response.ok) {
-                throw new Error('There was an error');
-            };
-            return response.json();
+            
+            // if (!response || response.ok) {
+            //     throw new Error('There was an error on line 42');
+            // };
 
+            return response.json();
+            
         })
         .then(function (response) {
-            cityDiv.classlist = 'temp-div';
+            cityDiv.classlist = 'temp-div border border-3';
             weathContainer.appendChild(cityDiv);
 
             cityInfoDiv.classList = 'detail-div';
@@ -53,11 +56,12 @@ var weatherAsk = function (city) {
             cityDiv.appendChild(nameEl);
 
             tempEl.innerHTML = "<h3 class='secondary-text'>Current Temperature:<span class='font-weight-bold'>" + " " + Math.round(response.main.temp) + "&#176F</span></h3><br>";
+            cityDiv.appendChild(tempEl);
 
             humidEl.innerHTML = "<h4 class='secondary-text'>Humidity:<span class='font-weight-bold'>" + " " + response.main.humidity + "%</span></h4>";
             cityDiv.appendChild(humidEl);
 
-            windEl = "<h4 class='secondary-text'>Wind Speed:<span class='font-weight-bold'>" + " " + Math.round(response.wind.speed) + " MPH</span></h4>";
+            windEl.innerHTML = "<h4 class='secondary-text'>Wind Speed:<span class='font-weight-bold'>" + " " + Math.round(response.wind.speed) + " MPH</span></h4>";
             cityDiv.appendChild(windEl);
 
 
@@ -69,23 +73,23 @@ var weatherAsk = function (city) {
         })
         .then(function (uvResponse) {
             uvBubble.setAttribute("id", "uv-index");
-            uvBubble.classList = "seconday-text uv-class";
+            uvBubble.classList = "uv-class";
             cityDiv.appendChild(uvBubble)
 
             var uvValue = uvResponse.value;
             uvIndex.innerHTML = "UV Index: ";
 
             uvDisplay.setAttribute("id", "uv-index");
-            uvDisplay.innerHTML= uvValue;
+            uvDisplay.innerHTML = uvValue;
             uvBubble.appendChild(uvIndex);
             uvBubble.appendChild(uvDisplay);
 
             if (uvResponse.value > 7) {
-                document.querySelector("#uv-index").classList = "uv-result rounded bg-danger";
+                document.querySelector("#uv-index").classList = "uv-result badge text-wrap text-white rounded bg-danger w-25";
             } else if (uvResponse.value >= 2 && uvResponse.value <= 7) {
-                document.querySelector("#uv-index").classList = "uv-result rounded bg-warning";
+                document.querySelector("#uv-index").classList = "uv-result badge text-wrap rounded bg-warningw-25 ";
             } else if (uvResponse.value <= 2) {
-                document.querySelector("#uv-index").classList = "uv-result rounded bg-success";
+                document.querySelector("#uv-index").classList = "uv-result badge text-wrap rounded bg-success w-25";
             }
 
             return fetch("https://api.openweathermap.org/data/2.5/onecall?lat=" + uvResponse.lat + "&lon=" + uvResponse.lon + "&appid=7aa46cc940f1317aa850cdc655c09d9e&units=imperial");
@@ -98,7 +102,7 @@ var weatherAsk = function (city) {
             // for loop to display 5 day forecast
             for (var i = 1; i < 6; i++) {
                 var forecastEl = document.createElement("div");
-                forecastEl.classList = "forecast-card card-body rounded-lg border-dark bg-info text-light";
+                forecastEl.classList = "forecast-card d-inline-flex flex-column card-body rounded-lg border border-dark bg-info text-light me-2";
                 fiveDay.appendChild(forecastEl);
 
                 // display date 
@@ -129,7 +133,7 @@ var weatherAsk = function (city) {
         .catch(function (error) {
             removePrevious();
             alert(error.message);
-            document.querySelector("#search-button").value = "";
+            document.querySelector("#searchBtn").value = "";
             return;
         });
 };
@@ -139,12 +143,12 @@ var CitySubmitHandler = function (event) {
     event.preventDefault();
     // search button submit
     var cityGroup = cityNameInput.value.trim().toUpperCase();
-    console.log(cityGroup);
+    console.log("This is the value on 143: " + cityGroup);
 
-    if (citygroup) {
+    if (cityGroup) {
         weatherAsk(cityGroup);
         createBtn(cityGroup);
-        searchHist();
+        storeHistory();
 
     } else {
         alert('Please enter a city name to see the current forecast.');
@@ -152,38 +156,39 @@ var CitySubmitHandler = function (event) {
 
 };
 // creating button for city searches
-function createBtn(city) {
-    cityAsk.textContent = city;
-    cityAsk.classList = "butn btn-infor btn-block"
-    cityAsk.setAttribute = ("data-city", city);
-    cityAsk.setAttribute = ("type", submit);
-    cityAsk.setAttribute = ("id", "city-" + city);
+function createBtn(cityGroup) {
+    var cityAsk = document.createElement("button");
+    cityAsk.textContent = cityGroup;
+    cityAsk.classList = "btn newBtn btn-infor shadow btn-block bg-secondary bg-gradient text-white mb-3"
+    cityAsk.setAttribute("data-city", cityGroup);
+    cityAsk.setAttribute("type", "submit");
+    cityAsk.setAttribute("id", "city-" + cityGroup);
+
     searchHistoryDiv.prepend(cityAsk);
 
 };
 
-function clearHistory () {    
+function clearHistory() {
     var searchedCities = JSON.parse(localStorage.getItem("searchedCities"));
     for (var i = 0; i < searchedCities.length; i++) {
         document.getElementById("city-" + searchedCities[i]).remove();
-    
+
     }
     localStorage.clear("searchedCities");
 };
 
-function storeHistory () {
-    var userSearch = document.querySelector("#search-button").value.trim().toUpperCase();
+function storeHistory() {
+    var userSearch = document.querySelector("#city-input").value.trim().toUpperCase();
+    console.log("this is line 177 log: " + userSearch);
 
     if (!userSearch) {
         return;
     }
-
-
     var previousSearchCity = JSON.parse(localStorage.getItem("searchedCities")) || [];
     previousSearchCity.push(userSearch);
     localStorage.setItem("searchedCities", JSON.stringify(previousSearchCity));
 
-    document.querySelector("#search-button").value = "";
+    document.querySelector("#searchBtn").value = "";
 
     removePrevious();
 };
@@ -191,6 +196,7 @@ function storeHistory () {
 function loadHistory() {
     if (localStorage.getItem("searchedCities")) {
         var previousSearchCity = JSON.parse(localStorage.getItem("searchedCities"));
+        console.log(previousSearchCity);
         for (var i = 0; i < previousSearchCity.length; i++) {
             createBtn(previousSearchCity[i]);
         }
@@ -200,7 +206,7 @@ function loadHistory() {
         document.getElementsByClassName("btn")[i].addEventListener('click', function () {
             var btnClicked = this.getAttribute("data-city");
             weatherAsk(btnClicked);
-            console.log(btnClicked);
+            console.log("This is button on 204 value: " + btnClicked);
             removePrevious();
         });
     }
@@ -215,8 +221,7 @@ var removePrevious = function () {
     windEl.remove();
 };
 
-cityNameInput.addEventListener("submit", CitySubmitHandler);
+searchBtn.addEventListener("click", CitySubmitHandler);
 deleteBtn.addEventListener("click", clearHistory);
 
 loadHistory();
-

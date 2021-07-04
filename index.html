@@ -6,42 +6,48 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">"
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
     <link href="./assets/css/styles.css">
     <title>Weather Dashboard</title>
 </head>
+
 <header class="container-fluid">
-    <div class="text-center dashboard" id="dashboard">Weather Dashboard</div>
+    <div class="text-center dashboard" id="dashboard">
+        <h1>Weather Dashboard</h1>
+    </div>
 </header>
 
 <body class="container">
     <div class="row">
-        <div class="city-card col-12 col-md-3" id="search-card">
+        <div class="city-card col-12 col-md-3 bg-light bg-gradient" id="search-card">
             <h5>Search for City:</h5>
-            <div class="cityGroup">
-                <input type="text" class="form-control" id="search-button" placeholder="City Name" aria-label="City Name">
-                <div class="cityGroup-append">
-                    <button type="submit" form="search-form"  class="btn btn-primary btn-block">Search</button>
-                    <button type="reset" form="search-form" id="dlt-btn" class="btn btn-danger btn-block">Delete Search</button>
+            <form class="cityGroup" action="submit">
+                <input type="text" class="form-control mb-2" id="city-input" placeholder="City Name" aria-label="City Name">
+                <div class="text-center">
+                <button type="submit" form="search-form" class="btn btn-primary btn-block"
+                    id="searchBtn">Search</button>
+                <button type="reset" form="search-form" id="dlt-btn" class="btn btn-danger btn-block">Delete
+                    Search</button>
                 </div>
-            </div>
-            <div id="search-history" class="card-body"></div>
+            </form>
+            <div class="card-body d-flex flex-column" id="search-history"></div>
         </div>
-        <div class="col-12 col-md-8">
+        <div class="return-card col-12 col-md-8">
             <div class="row">
-                <div class="weather-container col-12">Current Weather</div>
+                <div class="weather-container w-50 p-3 col-11">
+                   </div>
                 <div class="current-box"></div>
 
-                <div class="row five-day">
-                    <h5 class="five-day-title mt 2">5-Day Outlook</h5>
-                    <div class="row five-day-box" id="five-day">
-                        <!-- <div class="col-2 day-card">Day1</div>
+                <div class="row five-day d-flex flex-row">
+                    <h3 class="five-day-title mt-3">5-Day Outlook</h3>
+                    <div class="five-day-box d-flex flex-row" id="five-day">
+                        <div class="col-2 day-card">Day1</div>
                         <div class="col-2 day-card">Day2</div>
                         <div class="col-2 day-card">Day3</div>
                         <div class="col-2 day-card">Day4</div>
-                        <div class="col-2 day-card">Day5</div> -->
+                        <div class="col-2 day-card">Day5</div>
                     </div>
                 </div>
             </div>
@@ -54,7 +60,7 @@
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-        <script src="assets/javascript/scripts.js"></script>
+        <script src="./assets/javascript/scripts.js"></script>
 
 </body>
 
