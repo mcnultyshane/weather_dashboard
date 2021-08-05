@@ -16,7 +16,9 @@ This project was designed so that any one looking to travel would be able to see
 No installation necessary to run the application.  Simply visit the deployed link to run the program.  
   
 ## Usage 
-
+Click <a href="https://mcnultyshane.github.io/weather_dashboard/" target="_blank">here</a> to see the deployed site. 
+<br>
+<img src='./assets/images/full-display.jpg' style="width:800px;" alt='app screenshot'>
 The following is a walk though video of its uses: [Walkthough Video](https://drive.google.com/file/d/1KGhgKbVr9XIFWFG1rESo5WOigOBIjuhK/view)
 
 

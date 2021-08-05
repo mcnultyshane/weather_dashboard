@@ -147,8 +147,9 @@ var CitySubmitHandler = function (event) {
 
     if (cityGroup) {
         weatherAsk(cityGroup);
-        createBtn(cityGroup);
+       // createBtn(cityGroup);
         storeHistory();
+        loadHistory();
 
     } else {
         alert('Please enter a city name to see the current forecast.');
